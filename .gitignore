@@ -1,0 +1,6 @@
+zerodha_requirements.txt
+coe_standards.txt
+# Ignore all .env files
+.env        
+
+show_lines.py

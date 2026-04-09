@@ -1,0 +1,306 @@
+
+
+===== PAGE 1 =====
+2026 Batch - Python FastAPI & AI Agents Standards - GenWorx Center of Excellence (COE)
+Developer Guide
+Version: 1.0.2 Status:ACTIVETarget Stack: Python 3.11+, FastAPI, Pydantic v2, LangGraph, Celery, Faust, gRPC
+1. Overview
+This document provides a comprehensive template and guidelines for creating Python projects that adhere to
+GenWorx Center of Excellence (COE) standards. It covers both traditional Python applications and AI-powered
+projects with modular, scalable architectures.
+Supported Project Types
+Standard Python Projects: REST APIs, CLI tools, data processing pipelines.
+gRPC Services: High-performance internal microservices.
+Core Philosophy
+Modularity: Clear separation of concerns with well-defined module boundaries.
+Scalability: Architecture supports horizontal and vertical scaling.
+Maintainability: Code is clean, documented, and follows consistent patterns.
+Security: Security-first approach with secrets management and vulnerability scanning.
+Observability: Built-in logging, metrics, and tracing capabilities.
+Async-First: All I/O-bound operations must use async/await.
+2. Project Structure Templates
+We support two primary project structures: Standard (Rest API/Backend) and gRPC Service.
+2.1 Standard Python Project (rest)
+h for orchestration.
+1```
+2base-rest-service-template/
+3├── src/
+4│   ├── api/
+5│   │   ├──  rest/                    # FastAPI application
+6│   │   │    ├──  app.py              # FastAPI app setup
+7│   │   │    ├──  routes/             # API routes
+8│   │   │    │    ├──  health.py       # Health check endpoints
+9│   │   │    │    ├──  sse.py          # SSE endpoints
+10│   │   │    │    └──  websocket.py    # WebSocket endpoints
+11│   │   │    └──  dependencies.py     # Dependency injection
+12│   │   └──  middleware/             # FastAPI middleware
+13│   │       ├──  cors.py
+14│   │       ├──  logging.py
+15│   │       ├──  error_handler.py
+16│   │       └──  metrics.py
+17│   │
+18│   ├── core/                       # Core business logic
+19│   │   ├──  exceptions/             # Exception hierarchy
+20│   │   └──  services/               # Business logic services
+21│   │
+22│   ├── data/                       # Data access layer
+23│   │   ├──  clients/                # Database clients
+24│   │   ├──  repositories/           # Repository pattern
+25│   │   ├──  models/                 # Data models
+26│   │   │    ├──  postgres/           # SQLAlchemy models
+27│   │   │    └──  mongo/              # MongoDB models
+28│   │   └──  migrations/             # Database migrations
+29│   │
+30│   ├── handlers/                   # External service handlers
+
+===== PAGE 2 =====
+2.3 gRPC Service Project
+31│   │   ├──  grpc_clients/           # gRPC client handlers
+32│   │   └──  http_clients/           # HTTP client handlers
+33│   │
+34│   ├── control/                    # Control layer
+35│   │   └──  agents/                 # Intelligent agents
+36│   │
+37│   ├── observability/              # Observability stack
+38│   │   ├──  logging/                # Structured logging
+39│   │   ├──  metrics/                # Prometheus metrics
+40│   │   └──  tracing/                # Distributed tracing
+41│   │
+42│   ├── schemas/                    # Pydantic schemas
+43│   ├── config/                     # Configuration
+44│   ├── constants/                  # Constants
+45│   ├── utils/                      # Utilities
+46│   └── main.py                     # Application entry point
+47│
+48├── examples/                       # Example implementations
+49│   ├── sse_client.py              # SSE consumer example
+50│   └── websocket_client.py        # WebSocket client example
+51│
+52├── docs/                           # Documentation
+53├── requirements/                   # Python dependencies
+54├── docker-compose.yml              # Docker services
+55├── Dockerfile                      # Application container
+56├── Makefile                        # Development commands
+57└── .env.example                    # Example environment variables
+58```
+1base-grpc-service-template/
+2├── src/                          # Source code
+3│   ├── api/                      # API layer
+4│   │   ├──  grpc/                 # gRPC server and services
+5│   │   │    ├──  services/         # Service implementations
+6│   │   │    │    ├──  health_service.py
+7│   │   │    │    └──  streaming_service.py
+8│   │   │    └──  server.py         # gRPC server setup
+9│   │   ├──  interceptors/         # gRPC interceptors
+10│   │   │    ├──  auth_interceptor.py
+11│   │   │    ├──  error_interceptor.py
+12│   │   │    ├──  logging_interceptor.py
+13│   │   │    └──  metrics_interceptor.py
+14│   │   └──  dependencies/         # Dependency injection
+15│   │
+16│   ├── core/                     # Core business logic
+17│   │   ├──  exceptions/           # Exception hierarchy
+18│   │   │    ├──  base.py           # Base exception classes
+19│   │   │    └──  mapper.py         # gRPC status code mapping
+20│   │   └──  services/             # Business logic services
+21│   │
+22│   ├── data/                     # Data access layer
+23│   │   ├──  clients/              # Database clients
+24│   │   │    ├──  postgres_client.py
+25│   │   │    ├──  mongo_client.py
+26│   │   │    └──  redis_client.py
+27│   │   ├──  repositories/         # Repository pattern
+28│   │   │    ├──  base_postgres_repository.py
+29│   │   │    └──  base_mongo_repository.py
+30│   │   ├──  models/               # Data models
+31│   │   │    ├──  postgres/         # SQLAlchemy models
+32│   │   │    └──  mongo/            # MongoDB models
+33│   │   └──  migrations/           # Database migrations
+34│   │
+35│   ├── handlers/                 # External service handlers
+36│   │   ├──  grpc_clients/         # gRPC client handlers
+37│   │   │    └──  base_grpc_client.py
+38│   │   └──  http_clients/         # HTTP client handlers
+39│   │       └──  base_http_client.py
+40│   │
+41│   ├── control/                  # Control layer
+42│   │   └──  agents/               # Intelligent agents
+43│   │
+44│   ├── observability/            # Observability stack
+45│   │   ├──  logging/              # Structured logging
+46│   │   │    ├──  logger.py
+47│   │   │    └──  formatters.py
+48│   │   ├──  metrics/              # Prometheus metrics
+49│   │   │    └──  collectors.py
+
+===== PAGE 3 =====
+3. Environment Setup
+3.1 Prerequisites
+Python: 3.11+
+Package Manager: uv (Required for speed and determinism)
+Container Runtime: Docker Desktop 4.20+
+Message Broker: Redis (for Celery) / Kafka (for Faust)
+3.2 Installation (Using uv)
+3.3 Configuration
+We follow the 12-Factor App methodology. All configuration must be environment-variable driven.
+1. Copy .env.template to .env.
+2. Never commit .env to Git.
+Sample .env.template:
+50│   │   └──  tracing/              # Distributed tracing
+51│   │
+52│   ├── schemas/                  # Pydantic schemas
+53│   ├── config/                   # Configuration
+54│   │   └──  settings.py           # Pydantic settings
+55│   ├── constants/                # Application constants
+56│   ├── utils/                    # Utilities
+57│   │   ├──  context.py            # Context management
+58│   │   └──  helpers/              # Helper functions
+59│   └── main.py                   # Application entry point
+60│
+61├── examples/                     # Example implementations
+62│   └── streaming_clients.py      # gRPC streaming examples
+63│
+64├── scripts/                      # Helper scripts
+65├── docs/                         # Documentation
+66│   ├── development.md            # Developer guide
+67│   ├── proto_library.md          # Proto library pattern
+68│   └── api/                      # API documentation
+69│
+70├── requirements/                 # Python dependencies
+71│   ├── base.txt                  # Production dependencies
+72│   ├── dev.txt                   # Development dependencies
+73│   └── test.txt                  # Testing dependencies
+74│
+75├── docker-compose.yml            # Docker services
+76├── Dockerfile                    # Application container
+77├── Makefile                      # Development commands
+78├── pyproject.toml                # Poetry/project configuration
+79├── pytest.ini                    # Pytest configuration
+80├── ruff.toml                     # Ruff linter configuration
+81├── .env.example                  # Example environment variables
+82├── .gitignore                    # Git ignore patterns
+83└── .pre-commit-config.yaml       # Pre-commit hooks
+1# 1. Install uv
+2curl -LsSf https://astral.sh/uv/install.sh | sh
+3
+4# 2. Initialize Project
+5uv init my-project
+6cd my-project
+7
+8# 3. Create Virtual Environment
+9uv venv
+10source .venv/bin/activate
+11
+12# 4. Install Dependencies
+13uv pip install -e ".[dev]"
+1APP_ENV=development
+2LOG_LEVEL=INFO
+3DATABASE_URL=postgresql://user:pass@localhost:5432/dbname
+
+===== PAGE 4 =====
+4. COE Standards & Best Practices
+4.1 Code Style (Ruff)
+We utilize Ruff as a single tool to replace Black, Flake8, Isort, and PyUpgrade.
+Rules: - Line Length: 88 characters. - Imports: Sorted and grouped automatically. - Formatting: Double quotes,
+trailing commas.
+pyproject.toml Configuration:
+4.2 Type Checking (MyPy)
+Strict static type checking is mandatory.
+4.3 Dependency Management
+Dependencies are defined in pyproject.toml and locked with uv.lock.
+4
+5# Celery (Redis)
+6CELERY_BROKER_URL=redis://localhost:6379/0
+7CELERY_RESULT_BACKEND=redis://localhost:6379/1
+8
+9# Kafka (Faust)
+10KAFKA_BROKER_URL=kafka://localhost:9092
+11KAFKA_TOPIC_PREFIX=genworx-
+12
+13OPENAI_API_KEY=sk-...
+1[tool.ruff]
+2line-length = 88
+3target-version = "py311"
+4
+5[tool.ruff.lint]
+6select = ["E", "W", "F", "I", "B", "UP", "N", "SIM", "C4"]
+7ignore = []
+8
+9[tool.ruff.format]
+10quote-style = "double"
+11indent-style = "space
+1[tool.mypy]
+2python_version = "3.11"
+3strict = true
+4disallow_untyped_defs = true
+5no_implicit_optional = true
+1[project]
+2name = "my-project"
+3version = "0.1.0"
+4dependencies = [
+5"fastapi>=0.109.0",
+6"pydantic>=2.0.0",
+7"sqlalchemy>=2.0.0",
+8"celery>=5.3.0",
+9"redis>=5.0.0",
+10"faust-streaming>=0.10.0",
+11"grpcio>=1.59.0",
+12"grpcio-tools>=1.59.0"
+13]
+14
+15[project.optional-dependencies]
+16dev = [
+17"pytest",
+18"ruff",
+19"mypy"
+20]
+21ai = [
+22"langchain",
+23"langgraph",
+24"openai"
+25]
+
+===== PAGE 5 =====
+4.4 Git Workflow
+Main Branch: main (Production).
+Format: Conventional Commits (feat:, fix:, docs:, chore:).
+Pre-commit Hooks: Must run ruff check, ruff format, and mypy before commit.
+5. Development Workflows
+5.1 Local Development
+5.2 Database Migrations (Alembic)
+6. Security Guidelines
+6.1 Secrets
+NEVER commit secrets.
+Use pydantic-settings to read from environment.
+6.2 API Security
+Auth: OAuth2 / OIDC with JWT.
+Validation: Strict Pydantic models for all inputs.
+Rate Limiting: Use slowapi to prevent abuse.
+6.3 Docker Security
+Run as non-root user (USER appuser).
+Use multi-stage builds to minimize image size.
+Scan images regularly with Trivy.
+7. Documentation Standards
+7.1 Code
+Docstrings: Google Style docstrings for all public APIs.
+Type Hints: Mandatory for self-documentation.
+7.2 API
+OpenAPI: Auto-generated by FastAPI.
+Descriptions: Add summary and description to all routes.
+8. Troubleshooting
+Common Issues
+Module Not Found: Ensure uv pip install -e . was run.
+DB Connection: Check Docker container status (docker ps).
+1# Run with Docker Compose (Recommended)
+2docker-compose up --build
+1# Create migration
+2alembic revision --autogenerate -m "Add users table"
+3
+4# Apply migration
+5alembic upgrade head
+
+===== PAGE 6 =====
+LLM Rate Limits: Implement exponential backoff using tenacity.
+Version: 1.0.3
+Last Updated: 2026-01-19
+Maintained By: GenWorx COE Team

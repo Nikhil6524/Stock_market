@@ -1,0 +1,258 @@
+:root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #132535;
+  background: #f2f6fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #f2f6fa 0%, #edf4f8 100%);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #0e2538;
+  color: #e5f2ff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #133650;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.sidebar-user {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.content {
+  padding: 24px;
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #dde6ef;
+  box-shadow: 0 4px 16px rgba(10, 20, 30, 0.04);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin: 0;
+}
+
+.inline-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.inline-form input,
+.inline-form select {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #cad7e5;
+}
+
+.inline-form button,
+.auth-card button,
+.ghost-btn,
+.chip,
+.suggestion-btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.inline-form button,
+.auth-card button {
+  background: #1b6ec3;
+  color: white;
+}
+
+.ghost-btn {
+  background: #dfeaf6;
+  color: #174068;
+}
+
+.watchlists-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.chip {
+  background: #e5edf5;
+}
+
+.chip-active {
+  background: #c8ddf0;
+  font-weight: 600;
+}
+
+.suggestions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.suggestion-btn {
+  background: #edf4fb;
+}
+
+.simple-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #1b6ec3;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-item {
+  background: #f3f8fd;
+  border: 1px solid #dce8f4;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.stat-item span {
+  display: block;
+  font-size: 0.82rem;
+  color: #4e6478;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  border-bottom: 1px solid #e4ecf4;
+  padding: 6px 4px;
+}
+
+.muted {
+  color: #5e7084;
+}
+
+.error {
+  color: #b20000;
+  margin: 0;
+}
+
+.block {
+  margin-bottom: 10px;
+}
+
+.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  border: 1px solid #dbe6f1;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.auth-card input {
+  border-radius: 8px;
+  border: 1px solid #cad7e5;
+  padding: 8px;
+}
+
+@media (max-width: 1100px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #133650;
+    border-radius: 0;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
